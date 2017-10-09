@@ -3,16 +3,37 @@ Web3 = require("web3")
 web3 = new Web3("ws://localhost:8546")
 
 function printSync(sync) {
-  return `(Synchronizing) startingBlock: ${sync.startingBlock}, currentBlock: ${sync.currentBlock},  \
-highestBlock: ${sync.highestBlock}, knownStates: ${sync.knownStates}, pulledStates: ${sync.pulledStates}`
+  return `(Synchronizing) startingBlock: ${sync.startingBlock}, currentBlock: ${sync.currentBlock},\
+  highestBlock: ${sync.highestBlock}, knownStates: ${sync.knownStates}, pulledStates: ${sync.pulledStates}`
 }
 
 function printBlock(block) {
-  return `(Block) number: ${block.number}, hash: ${block.hash}, parentHash: ${block.parentHash}, nonce: ${block.nonce}, \
-sha3Uncles: ${block.sha3Uncles}, logsBloom: ${block.logsBloom}, transactionsRoot: ${block.transactionsRoot}, \
-stateRoot: ${block.stateRoot}, miner: ${block.miner}, difficulty: ${block.difficulty}, totalDifficulty: ${block.totalDifficulty}, \
-size: ${block.size}, extraData: ${block.extraData}, gasLimit: ${block.gasLimit}, gasUsed: ${block.gasUsed}, \
-timestamp: ${block.timestamp}, transactions: [${block.transactions}], uncles: [${block.uncles}]`
+  return `(Block) number: ${block.number}, hash: ${block.hash}, parentHash: ${block.parentHash}, nonce: ${block.nonce},\
+  sha3Uncles: ${block.sha3Uncles}, logsBloom: ${block.logsBloom}, transactionsRoot: ${block.transactionsRoot},\
+  stateRoot: ${block.stateRoot}, miner: ${block.miner}, difficulty: ${block.difficulty}, totalDifficulty: ${block.totalDifficulty},\
+  size: ${block.size}, extraData: ${block.extraData}, gasLimit: ${block.gasLimit}, gasUsed: ${block.gasUsed},\
+  timestamp: ${block.timestamp}, transactions: [${block.transactions}], uncles: [${block.uncles}]`
+}
+
+function printTransaction(transaction) {
+  return `(Transaction) hash: ${transaction.hash}, nonce: ${transaction.nonce}, blockHash: ${transaction.blockHash},\
+  blockNumber: ${transaction.blockNumber}, transactionIndex: ${transaction.transactionIndex}, from: ${transaction.from}\
+  to: ${transaction.to}, value: ${transaction.value}, gasPrice: ${transaction.gasPrice}, gas: ${transaction.gas}, input: ${transaction.input}`
+}
+
+function printTransactionReceipt(receipt) {
+  return `(TransactionReceipt): ${receipt.blockHash}, blockNumber: ${receipt.blockNumber}, transactionHash: ${receipt.transactionHash}\
+  transactionIndex: ${receipt.transactionIndex}, from: ${receipt.from}, to: ${receipt.to}, contractAddress: ${receipt.contractAddress},\
+  cumulativeGasUsed: ${receipt.cumulativeGasUsed}, gasUsed: ${receipt.gasUsed}, logs: ${printLogs(receipt.logs)}`
+}
+
+function printLogs(logs) {
+  results = []
+  for (var log in logs) {
+    result = `(Log) address: ${log.address}, data: ${log.data}, topics: ${log.topics}, logIndex: ${log.logIndex},\
+  transactionIndex: ${log.transactionIndex}, transactionHash: ${log.transactionHash}, blockHash: ${log.blockHash}, blockNumber: ${log.blockNumber}`
+  }
+  return results
 }
 
 // get accounts
@@ -64,13 +85,24 @@ web3.eth.getAccounts().then((accounts) => {
   return web3.eth.defaultBlock
 }).then((address) => {
   console.log(`Default Block: ${address}`)
-  // get latest block
+  //  get latest block
+  return web3.eth.getBlockTransactionCount('latest')
+}).then((transactionCount) => {
+  console.log(`Latest Block Transaction Count: ${transactionCount}`)
   return web3.eth.getBlock('latest')
 }).then((block) => {
-    console.log(printBlock(block))
+  console.log(printBlock(block))
+  // get the transaction count for thr latest block
+  transationHash = block.transactions[0]
+  return web3.eth.getTransaction(transationHash)
+}).then((transaction) => {
+  console.log(printTransaction(transaction))
+  return web3.eth.getTransactionReceipt(transaction.hash)
+}).then((receipt) => {
+    console.log(printTransactionReceipt(receipt))
 }).catch((error) => {
   console.log(error)
-}).then(() => {``
+}).then(() => {
   // exeit node when complete
   process.exit(1)
 })
