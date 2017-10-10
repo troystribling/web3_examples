@@ -99,7 +99,7 @@ web3.eth.getAccounts().then((accounts) => {
   console.log(printTransaction(transaction))
   return web3.eth.getTransactionReceipt(transaction.hash)
 }).then((receipt) => {
-    console.log(printTransactionReceipt(receipt))
+  console.log(printTransactionReceipt(receipt))
 }).catch((error) => {
   console.log(error)
 }).then(() => {
