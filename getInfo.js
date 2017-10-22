@@ -1,4 +1,4 @@
-// connect to remote blockchain
+// connect to remote node
 Web3 = require("web3")
 web3 = new Web3("ws://localhost:8546")
 
@@ -103,6 +103,6 @@ web3.eth.getAccounts().then((accounts) => {
 }).catch((error) => {
   console.log(error)
 }).then(() => {
-  // exeit node when complete
+  // exit node when complete
   process.exit(1)
 })
