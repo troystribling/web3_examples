@@ -1,7 +1,7 @@
 [parity]
 mode = "dark"
 chain = "dev"
-base_path = "/Users/troy/Library/Application Support/dev"
+base_path = "/Users/troy/Library/Application Support/io.parity.ethereum/dev"
 identity = "dev"
 
 [network]
