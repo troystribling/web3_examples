@@ -1,0 +1,18 @@
+[parity]
+mode = "dark"
+chain = "dev"
+base_path = "/Users/troy/Library/Application Support/dev"
+identity = "dev"
+
+[network]
+reserved_only = true
+reserved_peers = "./reserved_peers"
+
+[rpc]
+apis = ["web3", "eth", "net", "parity", "traces", "rpc", "secretstore"]
+
+[websockets]
+apis = ["web3", "eth", "net", "parity", "traces", "rpc", "secretstore"]
+
+[ipc]
+apis = ["web3", "eth", "net", "parity", "parity_accounts", "personal", "traces", "rpc", "secretstore"]
