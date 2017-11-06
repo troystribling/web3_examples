@@ -4,6 +4,10 @@ chain = "dev"
 base_path = "/Users/troy/Library/Application Support/io.parity.ethereum/dev"
 identity = "dev"
 
+# [account]
+# unlock = ["0x00942329AB865c8D88Ed261ea1bEc576e08eF26e"]
+# password = ["passwords"]
+
 [network]
 reserved_only = true
 reserved_peers = "./reserved_peers"
